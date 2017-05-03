@@ -43,8 +43,7 @@ const prolific = {
       prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000);
     });
     
-    prolific.checked = new Date();
-    console.log(prolific.checked);
+    prolific.checked = new Date().toString();
   },
   
   parse (result) {
@@ -116,6 +115,7 @@ const prolific = {
   sendStudies () {
     const obj = {
       studies: {},
+      checked: prolific.checked,
       exchangeRate: exchange.rate
     };
     

@@ -1,10 +1,13 @@
 const onMessageHandler = {
   sendStudies (message) {
-    console.log(message);
-    let html = ``;
+    let html =
+      `<div class="text-center">
+        <small>Last Checked: ${message.checked ? message.checked.split(`(`)[0].trim() : `Never`}</small>
+      </div>`
+    ;
     
     if (Object.keys(message.studies).length === 0) {
-      html = `<div class="text-center">No Studies Available</div>`;
+      html += `<div class="text-center">No Studies Available</div>`;
     }
     
     for (let key in message.studies) {
