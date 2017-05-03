@@ -3,12 +3,13 @@
 
   "name": "Prolific Assistant",
   "short_name": "PA",
-  "version": "1.0.3",
+  "version": "1.0.4",
   
   "permissions": [
     "tts",
     "storage",
-    "notifications"
+    "notifications",
+    "https://www.prolific.ac/*"
   ],
 
   "icons": {
