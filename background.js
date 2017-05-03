@@ -21,14 +21,11 @@ const exchange = {
 };
 
 const prolific = {
+  status: null,
   checked: null, 
-  
   timeout: null,
-  
   studies: {},
-  
   notified: [],
-  
   available: [],
     
   check () {
@@ -36,11 +33,14 @@ const prolific = {
     
     tools.xhr({
       method: `GET`,
-      url: `https://www.prolific.ac/studies`
+      url: `https://www.prolific.ac/studies`,
+      timeout: 500
     })
     .then(prolific.parse)
     .catch(error => {
+      prolific.status = error;
       prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000);
+      prolific.sendStudies();
     });
     
     prolific.checked = new Date().toString();
@@ -48,6 +48,7 @@ const prolific = {
   
   parse (result) {
     const doc = document.implementation.createHTMLDocument().documentElement; doc.innerHTML = result;
+    prolific.status = null;
     prolific.available = [];
     
     if (doc.querySelector(`.study`)) {
@@ -75,6 +76,9 @@ const prolific = {
         prolific.available.push(id);
       }
     }
+    else {
+      prolific.sendStudies();
+    }
     
     chrome.browserAction.setBadgeBackgroundColor({
       color: [255, 0, 0, 255]
@@ -101,20 +105,23 @@ const prolific = {
         title: obj.name
       });
       
-      prolific.notified.push(obj.id);
-      
       if (options.announce === true) {
         chrome.tts.speak(`Proliffic Study Found!`, {
           enqueue: true,
           voiceName: `Google US English`
         });
       }
+      
+      prolific.notified.push(obj.id);
     }
+    
+    prolific.sendStudies();
   },
   
   sendStudies () {
     const obj = {
       studies: {},
+      status: prolific.status,
       checked: prolific.checked,
       exchangeRate: exchange.rate
     };
@@ -136,13 +143,19 @@ const tools = {
     return new Promise(function (resolve, reject) {
       const xhr = new XMLHttpRequest();
       xhr.open(obj.method, obj.url);
-      xhr.timeout = obj.timeout ? obj.timeout : 5000;
-      xhr.responseType = obj.responseType ? obj.responseType : `text`;
+      
+      if (obj.timeout) {
+        xhr.timeout = obj.timeout;
+      }
       
       if (obj.headers) {
         for (let key in obj.headers) {
           xhr.setRequestHeader(key, obj.headers[key]);
         }
+      }
+      
+      if (obj.responseType) {
+        xhr.responseType = obj.responseType;
       }
       
       let formData = obj.formData ? obj.formData : null;
@@ -162,7 +175,7 @@ const tools = {
         reject(`${this.status} - ${this.statusText}`);
       };
       xhr.ontimeout = function () {
-        reject(`${this.status} - ${this.statusText}`);
+        reject(`${this.status} - Timeout`);
       };
     });
   }, 

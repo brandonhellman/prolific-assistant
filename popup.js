@@ -3,13 +3,14 @@ const onMessageHandler = {
     let html =
       `<div class="text-center">
         <small>Last Checked: ${message.checked ? message.checked.split(`(`)[0].trim() : `Never`}</small>
+        ${message.status ? `<br><small>Error: ${message.status}</small>` : ``}
       </div>`
     ;
     
     if (Object.keys(message.studies).length === 0) {
       html += `<div class="text-center">No Studies Available</div>`;
     }
-    
+        
     for (let key in message.studies) {
       const study = message.studies[key];
       html +=
