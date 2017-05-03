@@ -1,5 +1,5 @@
 <!doctype html>
-<html style="min-width: 400px; overflow-x: hidden;">
+<html>
   <head>
     <meta charset="utf-8">
     <!-- Scripts -->
@@ -13,23 +13,21 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          <div class="input-group input-group-sm" style="width: 100%;">
+          <div class="input-group input-group-sm w-100">
             <div class="input-group-addon bg-primary text-white">Check Interval</div>
-            <input id="interval" type="number" class="form-control" min="1" max="120" value="5">
+            <input id="interval" type="number" class="form-control" min="1" value="5">
           </div>
         </div>
         <div class="col">
-          <!--
-          <button id="btn-announce" class="btn btn-sm btn-primary" >Announce</button>
--->
-          
-          <label class="btn btn-sm btn-primary" style="width: 100%;">
+          <label class="btn btn-sm btn-primary w-100">
             Announce
-            <input id="announce" type="checkbox" style="display: none;" checked>
+            <input id="announce" class="hidden-xs-up" type="checkbox" checked>
           </label>
-
         </div>
       </div>
+    </div>
+    <div class="text-center">
+      <small id="checked"></small>
     </div>
     <div id="studies" />    
   </body>
