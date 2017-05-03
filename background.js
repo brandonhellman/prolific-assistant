@@ -33,8 +33,7 @@ const prolific = {
     
     tools.xhr({
       method: `GET`,
-      url: `https://www.prolific.ac/studies`,
-      timeout: 500
+      url: `https://www.prolific.ac/studies`
     })
     .then(prolific.parse)
     .catch(error => {
