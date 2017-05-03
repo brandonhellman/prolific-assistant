@@ -1,0 +1,29 @@
+body {
+  margin-top: 10px;
+}
+
+.card-header {
+  padding: 0px 3px;
+}
+
+.card-block {
+  padding: .25rem;
+}
+
+#studies > .card {
+  margin: 2px;
+  line-height: 1;
+}
+
+#studies > .card table {
+  font-size: .75rem;
+}
+
+.bg-primary {
+  background-color: #01448A !important;
+}
+
+.btn-primary {
+  background-color: #01448A;
+  border-color: #01448A;
+}
