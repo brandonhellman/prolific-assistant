@@ -3,7 +3,7 @@
 
   "name": "Prolific Assistant",
   "short_name": "PA",
-  "version": "1.0.1",
+  "version": "1.0.3",
   
   "permissions": [
     "tts",
