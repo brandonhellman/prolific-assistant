@@ -1,6 +1,8 @@
 const popup = {
   checked (message) {
-    document.getElementById(`checked`).innerHTML = `Last Checked: ${message.checked ? message.checked.split(`(`)[0].trim() : `Never`}`;
+    document.getElementById(`checked`).innerHTML =
+      `Last Checked: ${message.checked ? message.checked.split(`(`)[0].trim() : `Never`}`
+    ;
   }, 
   
   studies (message) {
@@ -54,7 +56,9 @@ const popup = {
   },
   
   balance (message) {
-    document.getElementById(`balance`).innerHTML = `Pend: £${message.balance.pend ? message.balance.pend.toFixed(2) : `null`} • Avail: £${message.balance.avail ? message.balance.avail.toFixed(2) : `null`}`;
+    document.getElementById(`balance`).innerHTML =
+      `Pend: £${message.balance.pend ? message.balance.pend.toFixed(2) : `?.??`} • Avail: £${message.balance.avail ? message.balance.avail.toFixed(2) : `?.??`}`
+    ;
   }
 };
 
@@ -79,7 +83,6 @@ document.addEventListener(`DOMContentLoaded`, event => {
       popup.studies(request.message);
     }
     if (request.type === `balance`) {
-      console.log(request.message);
       popup.balance(request.message);
     }
   });
