@@ -253,7 +253,7 @@ let options;
 
 chrome.storage.local.get(`options`, data => {
   options = data.options || {
-    interval: 5000,
+    interval: 5,
     announce: true
   };
 });
