@@ -134,6 +134,57 @@ const prolific = {
       type: `sendStudies`,
       message: obj
     });
+  },
+  
+  pend: null,
+  avail: null,
+  
+  balance () {
+    chrome.runtime.sendMessage({
+      type: `balance`,
+      message: {
+        balance: {
+          pend: prolific.pend,
+          avail: prolific.avail
+        }
+      }
+    });
+    
+    tools.xhr({
+      method: `GET`,
+      url: `https://www.prolific.ac/participant/account`
+    })
+    .then(result => {
+      const doc = document.implementation.createHTMLDocument().documentElement; doc.innerHTML = result;
+      
+      const paid = doc.querySelector(`a[href="/participant/account/get-paid"]`);
+      
+      if (paid) {
+        prolific.pend = Number(paid.parentElement.children[1].textContent.replace(/[^0-9.]/g, ``));
+        prolific.avail = Number(paid.parentElement.children[2].textContent.replace(/[^0-9.]/g, ``));
+        
+        chrome.runtime.sendMessage({
+          type: `balance`,
+          message: {
+            balance: {
+              pend: prolific.pend,
+              avail: prolific.avail
+            }
+          }
+        });
+      }
+    })
+    .catch(error => {
+      chrome.runtime.sendMessage({
+        type: `balance`,
+        message: {
+          balance: {
+            pend: prolific.pend,
+            avail: prolific.avail
+          }
+        }
+      });
+    });
   }
 };
 
@@ -214,9 +265,12 @@ chrome.storage.onChanged.addListener(changes => {
   }
 });
 
-chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(request => {
   if (request.type === `askStudies`) {
     prolific.sendStudies();
+  }
+  if (request.type === `askBalance`) {
+    prolific.balance();
   }
 });
 

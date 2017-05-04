@@ -1,6 +1,10 @@
 body {
   min-width: 400px;
-  margin-top: 10px;
+}
+
+.navbar {
+  padding: 0;
+  margin-bottom: 10px;
 }
 
 .card-header {
