@@ -21,7 +21,6 @@ const exchange = {
 };
 
 const prolific = {
-  status: null,
   checked: null, 
   timeout: null,
   studies: {},
@@ -37,9 +36,7 @@ const prolific = {
     })
     .then(prolific.parse)
     .catch(error => {
-      prolific.status = error;
       prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000);
-      prolific.sendStudies();
     });
     
     prolific.checked = new Date().toString();
@@ -50,15 +47,47 @@ const prolific = {
     prolific.status = null;
     prolific.available = [];
     
-    if (doc.querySelector(`.study`)) {
-      for (let elem of doc.querySelectorAll(`.study`)) {
-        const id = elem.id;
+    const studies = doc.querySelectorAll(`.study`);
+    
+    if (studies.length > 0) {
+      let resolves = 0;
+      
+      for (let study of studies) {
+        const id = study.id;
+        prolific.available.push(id);
       
         tools.xhr({
-          method: `GET`,
           url: `https://www.prolific.ac/api/studies/${id}`
         })
-        .then(prolific.studyInfo)
+        .then(result => {
+          const obj = JSON.parse(result);
+          prolific.studies[obj.id] = obj;
+    
+          if (prolific.notified.includes(obj.id) === false) {
+            tools.notification({
+              url: `https://www.prolific.ac/studies/${obj.id}`,
+              body: [
+                `Reward: £${(obj.reward / 10000).toFixed(2)} - £${obj.average_reward_per_hour.toFixed(2)}/hr ${exchange.rate ? `• $${(obj.reward / 10000 * exchange.rate).toFixed(2)} - $${(obj.average_reward_per_hour * exchange.rate).toFixed(2)}/hr` : ``}`,
+                `Takes ${obj.average_time_taken} minutes • Allowed ${obj.maximum_allowed_time} minutes`,
+                `Available Places: ${obj.places_remaining}/${obj.total_available_places}`
+              ],
+              title: obj.name
+            });
+      
+            if (options.announce === true) {
+              chrome.tts.speak(`Proliffic Study Found!`, {
+                enqueue: true,
+                voiceName: `Google US English`
+              });
+            }
+      
+            prolific.notified.push(obj.id);
+          }
+                    
+          if (++ resolves === studies.length) {
+            prolific.sendStudies();
+          }
+        })
         .catch(error => {
           if (!prolific.notified.includes(id)) {            
             tools.notification({
@@ -70,9 +99,11 @@ const prolific = {
               title: `Study Found!`
             });
           }
+          
+          if (++ resolves === studies.length) {
+            prolific.sendStudies();
+          }
         });
-        
-        prolific.available.push(id);
       }
     }
     else {
@@ -87,34 +118,6 @@ const prolific = {
     });
     
     prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000);
-  },
-  
-  studyInfo (result) {
-    const obj = JSON.parse(result);
-    prolific.studies[obj.id] = obj;
-    
-    if (prolific.notified.includes(obj.id) === false) {
-      tools.notification({
-        url: `https://www.prolific.ac/studies/${obj.id}`,
-        body: [
-          `Reward: £${(obj.reward / 10000).toFixed(2)} - £${obj.average_reward_per_hour.toFixed(2)}/hr ${exchange.rate ? `• $${(obj.reward / 10000 * exchange.rate).toFixed(2)} - $${(obj.average_reward_per_hour * exchange.rate).toFixed(2)}/hr` : ``}`,
-          `Takes ${obj.average_time_taken} minutes • Allowed ${obj.maximum_allowed_time} minutes`,
-          `Available Places: ${obj.places_remaining}/${obj.total_available_places}`
-        ],
-        title: obj.name
-      });
-      
-      if (options.announce === true) {
-        chrome.tts.speak(`Proliffic Study Found!`, {
-          enqueue: true,
-          voiceName: `Google US English`
-        });
-      }
-      
-      prolific.notified.push(obj.id);
-    }
-    
-    prolific.sendStudies();
   },
   
   sendStudies () {
@@ -151,7 +154,6 @@ const prolific = {
     });
     
     tools.xhr({
-      method: `GET`,
       url: `https://www.prolific.ac/participant/account`
     })
     .then(result => {
@@ -192,7 +194,7 @@ const tools = {
   xhr (obj) {
     return new Promise(function (resolve, reject) {
       const xhr = new XMLHttpRequest();
-      xhr.open(obj.method, obj.url);
+      xhr.open(obj.method ? obj.method : `GET`, obj.url);
       
       if (obj.timeout) {
         xhr.timeout = obj.timeout;
