@@ -36,7 +36,7 @@ const prolific = {
     })
     .then(prolific.parse)
     .catch(error => {
-      prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000);
+      prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000 * 60);
     });
     
     prolific.checked = new Date().toString();
