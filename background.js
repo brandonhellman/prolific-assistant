@@ -117,7 +117,7 @@ const prolific = {
       text: prolific.available.length > 0 ? prolific.available.length.toString() : ``
     });
     
-    prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000);
+    prolific.timeout = setTimeout(prolific.check, Number(options.interval) * 1000 * 60);
   },
   
   sendStudies () {
