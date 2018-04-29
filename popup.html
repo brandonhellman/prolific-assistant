@@ -1,50 +1,50 @@
-<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <!-- Scripts -->
-    <script src="jquery-3.2.1.min.js"></script>
-    <script src="popup.js"></script>
-    <!-- Cascading Style Sheets -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="popup.css" rel="stylesheet">
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse bg-primary">
-      <table class="w-100">
-        <tr>
-          <td class="w-25 text-center">
-            <a class="text-white small" href="https://www.prolific.ac/studies" target="_blank">Studies</a>
-          </td>
-          <td class="w-50 text-center">
-            <span id="balance" class="text-white small">Pend: £?.?? • Avail: £?.??</span>
-          </td>
-          <td class="w-25 text-center">
-            <a class="text-white small" href="https://www.prolific.ac/participant/account" target="_blank">Account</a>
-          </td>
-        </tr>
-      </table>
-    </nav>
-    
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="input-group input-group-sm w-100">
-            <div class="input-group-addon bg-primary text-white">Check Interval</div>
-            <input id="interval" type="number" class="form-control" min="1" value="5">
+
+<head>
+  <meta charset="utf-8">
+  <script src="popup.js"></script>
+  <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="min-width: 400px;">
+  <nav class="navbar navbar-inverse bg-primary p-0 mb-2">
+    <table class="w-100">
+      <tr>
+        <td class="w-25 text-center">
+          <a class="text-white small" href="https://www.prolific.ac/studies" target="_blank">Studies</a>
+        </td>
+        <td class="w-50 text-center">
+          <span id="balance" class="text-white small">Loading Balance...</span>
+        </td>
+        <td class="w-25 text-center">
+          <a class="text-white small" href="https://www.prolific.ac/participant/account" target="_blank">Account</a>
+        </td>
+      </tr>
+    </table>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Check Interval</span>
           </div>
+          <input type="number" class="form-control" min="60" id="interval">
         </div>
-        <div class="col">
-          <label class="btn btn-sm btn-primary w-100">
-            Announce
-            <input id="announce" class="hidden-xs-up" type="checkbox" checked>
-          </label>
+      </div>
+      <div class="col">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="announce">
+          <label class="custom-control-label" for="announce">Announce</label>
         </div>
       </div>
     </div>
-    <div class="text-center">
-      <small id="checked"></small>
-    </div>
-    <div id="studies" />    
-  </body>
+  </div>
+  <div class="text-center mt-1">
+    <small id="checked"></small>
+  </div>
+  <div id="studies" />
+</body>
+
 </html>

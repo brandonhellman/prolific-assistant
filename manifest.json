@@ -2,9 +2,29 @@
   "manifest_version": 2,
 
   "name": "Prolific Assistant",
-  "short_name": "PA",
-  "version": "1.0.6",
-  
+
+  "version": "2.0.0",
+
+  "description": "Monitors https://prolific.ac/ for new studies.",
+
+  "icons": {
+    "16": "prolific.png",
+    "128": "prolific.png"
+  },
+
+  "browser_action": {
+    "default_icon": "prolific.png",
+    "default_title": "Prolific Assistant",
+    "default_popup": "popup.html"
+  },
+
+  "author": "Kadauchi",
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+
   "permissions": [
     "tts",
     "storage",
@@ -12,21 +32,5 @@
     "https://www.prolific.ac/*"
   ],
 
-  "icons": {
-    "16": "prolific.png",
-    "128": "prolific.png"
-  },
-  
-  "browser_action": {
-    "default_icon": "prolific.png",
-    "default_title": "Prolific Assistant",
-    "default_popup": "popup.html"
-  },
-
-  "background": {
-    "scripts": [
-      "background.js"
-    ],
-    "persistent": true
-  }
+  "short_name": "PA"
 }
