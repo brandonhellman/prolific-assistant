@@ -47,7 +47,7 @@ function extractStudies(text) {
 
       Object.assign(accumulator, {
         [id]: {
-          href: `https://www.prolific.ac/${element.pathname}`,
+          href: `https://www.prolific.ac${element.pathname}`,
           title: element.textContent,
           hostedBy: props[0],
           reward: props[1],
