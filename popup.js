@@ -1,3 +1,6 @@
+const toMoney = (n) => (n / 100).toFixed(2);
+
+/*
 function extractBalance(text) {
   const doc = new DOMParser().parseFromString(text, `text/html`);
   const available = doc.querySelector(
@@ -12,7 +15,9 @@ function extractBalance(text) {
     pending: pending.textContent.match(/([0-9.]+)/)[0]
   };
 }
+*/
 
+/*
 function getBalance() {
   return new Promise(async (resolve, reject) => {
     const response = await fetch(
@@ -34,7 +39,9 @@ function getBalance() {
     }
   });
 }
+*/
 
+/*
 async function displayBalance() {
   const balanceEl = document.getElementById(`balance`);
 
@@ -47,6 +54,7 @@ async function displayBalance() {
     balanceEl.textContent = error;
   }
 }
+*/
 
 function displayChecked(checked) {
   document.getElementById(`checked`).textContent = `Last Checked: ${checked}`;
@@ -58,36 +66,34 @@ function displayOptions(options) {
 }
 
 function studyHTML(study) {
-  const { href, title } = study;
-
   return `<div class="card mt-2">
     <div class="card-header p-0" style="line-height: 1;">
-      <b><a href="${href}" target="_blank">${title}</a></b>
+      <b><a href="https://app.prolific.ac/studies" target="_blank">${study.name}</a></b>
     </div>
     <div class="card-block" style="line-height: 1.25;">
       <table class="w-100 small">
         <tr>
           <td class="w-50">
-            <b>Hosted By:</b> <span>${study.hostedBy}</span>
+            <b>Hosted By:</b> <span>${study.researcher.name}</span>
           </td>
           <td class="w-50">
-            <b>Available Places:</b> <span>${study.availablePlaces}</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="w-50">
-            <b>Reward:</b> <span>${study.reward}</span>
-          </td>
-          <td class="w-50">
-            <b>Time Allowed:</b> <span>${study.maximumAllowedTime}</span>
+            <b>Available Places:</b> <span>${study.total_available_places - study.places_taken}</span>
           </td>
         </tr>
         <tr>
           <td class="w-50">
-            <b>Reward /hr:</b> <span>${study.avgRewardPerHour}</span>
+            <b>Reward:</b> <span>${toMoney(study.reward)}</span>
           </td>
           <td class="w-50">
-            <b>Completion Time:</b> <span>${study.avgCompletionTime}</span>
+            <b>Time Allowed:</b> <span>N/A</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="w-50">
+            <b>Reward /hr:</b> <span>${toMoney(study.average_reward_per_hour)}</span>
+          </td>
+          <td class="w-50">
+            <b>Completion Time:</b> <span>${study.estimated_completion_time} minutes</span>
           </td>
         </tr>
       </table>
@@ -96,13 +102,11 @@ function studyHTML(study) {
 }
 
 function displayStudies(studies) {
-  const ids = Object.keys(studies);
-
-  if (ids.length) {
-    Object.keys(studies).forEach(id => {
+  if (studies.length) {
+    studies.forEach(o => {
       document
         .getElementById(`studies`)
-        .insertAdjacentHTML(`beforeend`, studyHTML(studies[id]));
+        .insertAdjacentHTML(`beforeend`, studyHTML(o));
     });
   } else {
     document
@@ -117,7 +121,7 @@ function displayStudies(studies) {
 chrome.storage.local.get(null, items => {
   const { checked, options, studies } = items;
 
-  displayBalance();
+  // displayBalance();
   displayChecked(checked);
   displayOptions(options);
   displayStudies(studies);
