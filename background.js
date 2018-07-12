@@ -1,6 +1,8 @@
 let timeout;
 const notified = [];
 
+const toMoney = (n) => (n / 100).toFixed(2);
+
 function setBadge(studies) {
   const count = Object.keys(studies).length;
   const text = count > 0 ? count.toString() : ``;
@@ -30,52 +32,15 @@ function getStorage(key) {
   });
 }
 
-function extractStudies(text) {
-  const doc = new DOMParser().parseFromString(text, `text/html`);
-
-  const studies = [...doc.querySelectorAll(`h3 > a[href^="/studies/"]`)].reduce(
-    (accumulator, element) => {
-      const study = element.closest(`.row`);
-      const props = [...study.querySelectorAll(`li`)].map(el =>
-        el.textContent
-          .split(`:`)[1]
-          .replace(/\s\s+/, ``)
-          .trim()
-      );
-
-      const id = element.pathname.replace(`/studies/`, ``);
-
-      Object.assign(accumulator, {
-        [id]: {
-          href: `https://www.prolific.ac${element.pathname}`,
-          title: element.textContent,
-          hostedBy: props[0],
-          reward: props[1],
-          avgRewardPerHour: props[2],
-          availablePlaces: props[3],
-          maximumAllowedTime: props[4],
-          avgCompletionTime: props[5]
-        }
-      });
-
-      return accumulator;
-    },
-    {}
-  );
-  return studies;
-}
-
 function getStudies() {
   return new Promise(async (resolve, reject) => {
-    const response = await fetch(`https://www.prolific.ac/studies`, {
+    const response = await fetch(`https://www.prolific.ac/api/v1/studies/?current=1`, {
       credentials: `include`
     });
 
     if (response.ok) {
-      const text = await response.text();
-      const studies = extractStudies(text);
-
-      resolve(studies);
+      const json = await response.json();
+      resolve(json.results);
     } else {
       reject(new Error(`${response.status} - ${response.statusText}`));
     }
@@ -83,47 +48,37 @@ function getStudies() {
 }
 
 function notification(study) {
-  chrome.notifications.create(study.href, {
+  
+  chrome.notifications.create(study.id, {
     type: `list`,
-    title: study.title,
+    title: study.name,
     message: ``,
     iconUrl: `/prolific.png`,
     items: [
       {
         title: `Hosted By`,
-        message: study.hostedBy
+        message: study.researcher.name
       },
       {
         title: `Reward`,
-        message: `${study.reward} | Avg. ${study.avgRewardPerHour}`
-      },
-      {
-        title: `Time`,
-        message: `${study.maximumAllowedTime} | Avg. ${study.avgCompletionTime}`
+        message: `${toMoney(study.reward)} | Avg. ${toMoney(study.average_reward_per_hour)}`
       },
       {
         title: `Places`,
-        message: study.availablePlaces
+        message: `${study.total_available_places - study.places_taken}`
       }
     ],
     buttons: [{ title: `Open` }]
   });
+  
 }
 
 async function announceStudies(studies) {
-  let needToAnnounce = false;
+  const needAnnouncing = studies.filter((o) => !notified.includes(o.id));
 
-  Object.keys(studies).forEach(id => {
-    if (!notified.includes(id)) {
-      const study = studies[id];
+  if (needAnnouncing.length) {
+    needAnnouncing.forEach((o) => { notified.push(o.id); notification(o); })
 
-      notification(study);
-      notified.push(id);
-      needToAnnounce = true;
-    }
-  });
-
-  if (needToAnnounce) {
     const options = await getStorage(`options`);
 
     if (options.announce) {
@@ -181,8 +136,8 @@ chrome.runtime.onMessage.addListener(request => {
 });
 
 chrome.notifications.onButtonClicked.addListener(notificationId => {
-  window.open(notificationId);
+  window.open(`https://app.prolific.ac/studies/${notificationId}`);
   chrome.notifications.clear(notificationId);
 });
 
-timeout = setTimeout(prolific, 10000);
+prolific();
