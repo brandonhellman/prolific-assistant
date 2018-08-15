@@ -148,14 +148,14 @@ chrome.notifications.onButtonClicked.addListener(notificationId => {
 
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
-    const { requestHeaders } = details;
+    const { method, requestHeaders } = details;
     const authorizationHeaderExists = requestHeaders.some(
       header => header.name === "Authorization"
     );
 
     if (authorizationHeaderExists) {
       headers = requestHeaders;
-    } else if (headers) {
+    } else if (headers && method === 'GET') {
       return { requestHeaders: headers };
     }
   },
