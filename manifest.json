@@ -29,6 +29,8 @@
     "tts",
     "storage",
     "notifications",
+    "webRequest",
+    "webRequestBlocking",
     "https://www.prolific.ac/*"
   ],
 
