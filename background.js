@@ -2,6 +2,8 @@ let headers;
 let timeout;
 const notified = [];
 
+const studiesURL = 'https://www.prolific.ac/api/v1/studies/?current=1';
+
 const toMoney = (n) => (n / 100).toFixed(2);
 
 /**
@@ -23,6 +25,26 @@ const getInterval = () =>
     resolve(ms);
   });
 
+/**
+ * @returns {Promise<array>}
+ */
+const fetchStudies = () =>
+  new Promise(async (resolve, reject) => {
+    if (!headers) {
+      reject(new Error('No Headers'));
+      return;
+    }
+
+    const response = await fetch(studiesURL, { credentials: 'include' });
+
+    if (response.ok) {
+      const json = await response.json();
+      resolve(json.results);
+    } else {
+      reject(new Error(`${response.status} - ${response.statusText}`));
+    }
+  });
+
 function setBadge(studies) {
   const count = Object.keys(studies).length;
   const text = count > 0 ? count.toString() : '';
@@ -36,28 +58,6 @@ function setChecked() {
 
 function setStudies(studies) {
   chrome.storage.local.set({ studies });
-}
-
-function getStudies() {
-  return new Promise(async (resolve, reject) => {
-    const response = await fetch(
-      'https://www.prolific.ac/api/v1/studies/?current=1',
-      {
-        credentials: 'include',
-      },
-    );
-
-    if (response.ok) {
-      if (headers) {
-        const json = await response.json();
-        resolve(json.results);
-      } else {
-        reject(new Error('No Headers'));
-      }
-    } else {
-      reject(new Error(`${response.status} - ${response.statusText}`));
-    }
-  });
 }
 
 function notification(study) {
@@ -110,7 +110,7 @@ async function prolific() {
   clearTimeout(timeout);
 
   try {
-    const studies = await getStudies();
+    const studies = await fetchStudies();
     setBadge(studies);
     setStudies(studies);
     announceStudies(studies);
