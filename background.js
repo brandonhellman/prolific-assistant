@@ -4,6 +4,25 @@ const notified = [];
 
 const toMoney = (n) => (n / 100).toFixed(2);
 
+/**
+ * @param {string} key
+ * @returns {Promise<object>}
+ */
+const getStorage = (key) =>
+  new Promise((resolve) =>
+    chrome.storage.local.get(key, (item) => resolve(item[key])),
+  );
+
+/**
+ * @returns {Promise<number>}
+ */
+const getInterval = () =>
+  new Promise(async (resolve) => {
+    const { interval } = await getStorage('options');
+    const ms = interval >= 60 ? interval * 1000 : 60 * 1000;
+    resolve(ms);
+  });
+
 function setBadge(studies) {
   const count = Object.keys(studies).length;
   const text = count > 0 ? count.toString() : '';
@@ -17,20 +36,6 @@ function setChecked() {
 
 function setStudies(studies) {
   chrome.storage.local.set({ studies });
-}
-
-function getStorage(key) {
-  return new Promise(async (resolve, reject) => {
-    chrome.storage.local.get(key, (items) => {
-      const value = items[key];
-
-      if (value) {
-        resolve(items[key]);
-      } else {
-        reject(new Error(`No Value for the key: ${key}`));
-      }
-    });
-  });
 }
 
 function getStudies() {
@@ -49,7 +54,6 @@ function getStudies() {
       } else {
         reject(new Error('No Headers'));
       }
-      
     } else {
       reject(new Error(`${response.status} - ${response.statusText}`));
     }
@@ -100,16 +104,6 @@ async function announceStudies(studies) {
       });
     }
   }
-}
-
-function getInterval() {
-  return new Promise(async (resolve) => {
-    const options = await getStorage('options');
-    const { interval } = options;
-    const milliseconds = interval >= 60 ? interval * 1000 : 60000;
-
-    resolve(milliseconds);
-  });
 }
 
 async function prolific() {
