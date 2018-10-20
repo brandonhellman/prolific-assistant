@@ -43,8 +43,13 @@ function getStudies() {
     );
 
     if (response.ok) {
-      const json = await response.json();
-      resolve(json.results);
+      if (headers) {
+        const json = await response.json();
+        resolve(json.results);
+      } else {
+        reject(new Error('No Headers'));
+      }
+      
     } else {
       reject(new Error(`${response.status} - ${response.statusText}`));
     }
