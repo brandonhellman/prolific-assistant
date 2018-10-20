@@ -1,5 +1,0 @@
-{
-  "extends": ["airbnb-base", "prettier"],
-  "env": { "webextensions": true, "browser": true },
-  "rules": { "linebreak-style": 0 }
-}
