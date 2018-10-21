@@ -171,6 +171,8 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     } else if (headers && method === 'GET') {
       return { requestHeaders: headers };
     }
+
+    return {};
   },
   { urls: ['https://www.prolific.ac/api/v1/studies*'] },
   ['blocking', 'requestHeaders'],
