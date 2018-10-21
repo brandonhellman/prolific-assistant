@@ -50,7 +50,7 @@ const fetchStudies = () =>
  * @param {array} studies
  * @param {number} studies.length
  */
-const setBadge = ({ length }) => {
+const setBadgeStudies = ({ length }) => {
   const text = length > 0 ? length.toString() : '';
   chrome.browserAction.setBadgeText({ text });
   chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
@@ -115,7 +115,7 @@ async function prolific() {
 
   try {
     const studies = await fetchStudies();
-    setBadge(studies);
+    setBadgeStudies(studies);
     setStudies(studies);
     announceStudies(studies);
     setChecked();
