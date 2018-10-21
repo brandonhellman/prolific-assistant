@@ -62,7 +62,7 @@ function displayStudies(studies) {
       .getElementById('studies')
       .insertAdjacentHTML(
         'beforeend',
-        '<div class="text-center">No Studies</div>',
+        '<a href="https://app.prolific.ac/studies" target="_blank">No Studies</a>',
       );
   }
 }
