@@ -56,6 +56,14 @@ const setBadgeStudies = ({ length }) => {
   chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
 };
 
+/**
+ * Show the user an error has occured through the badge text.
+ */
+const setBadgeError = () => {
+  chrome.browserAction.setBadgeText({ text: 'ERR' });
+  chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
+};
+
 function setChecked() {
   chrome.storage.local.set({ checked: new Date().toTimeString() });
 }
@@ -120,6 +128,7 @@ async function prolific() {
     announceStudies(studies);
     setChecked();
   } catch (error) {
+    setBadgeError();
     window.console.error(error);
   }
 
