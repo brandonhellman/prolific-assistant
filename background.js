@@ -18,7 +18,7 @@ const getStorage = (key) =>
 /**
  * @returns {Promise<number>}
  */
-const getInterval = () =>
+const getIntervalFromStorage = () =>
   new Promise(async (resolve) => {
     const { interval } = await getStorage('options');
     const ms = interval >= 60 ? interval * 1000 : 60 * 1000;
@@ -132,7 +132,7 @@ async function prolific() {
     window.console.error(error);
   }
 
-  timeout = setTimeout(prolific, await getInterval());
+  timeout = setTimeout(prolific, await getIntervalFromStorage());
 }
 
 chrome.storage.local.get(null, (items) => {
