@@ -45,12 +45,16 @@ const fetchStudies = () =>
     }
   });
 
-function setBadge(studies) {
-  const count = Object.keys(studies).length;
-  const text = count > 0 ? count.toString() : '';
+/**
+ * Change the badge text to the number of studies.
+ * @param {array} studies
+ * @param {number} studies.length
+ */
+const setBadge = ({ length }) => {
+  const text = length > 0 ? length.toString() : '';
   chrome.browserAction.setBadgeText({ text });
-  chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
-}
+  chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
+};
 
 function setChecked() {
   chrome.storage.local.set({ checked: new Date().toTimeString() });
