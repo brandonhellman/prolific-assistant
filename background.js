@@ -26,6 +26,16 @@ const getIntervalFromStorage = () =>
   });
 
 /**
+ * @param {array} studies
+ */
+const setStudiesToStorage = (studies) => {
+  chrome.storage.local.set({
+    studies,
+    checked: new Date().toTimeString(),
+  });
+};
+
+/**
  * @returns {Promise<array>}
  */
 const fetchStudies = () =>
@@ -63,14 +73,6 @@ const setBadgeError = () => {
   chrome.browserAction.setBadgeText({ text: 'ERR' });
   chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
 };
-
-function setChecked() {
-  chrome.storage.local.set({ checked: new Date().toTimeString() });
-}
-
-function setStudies(studies) {
-  chrome.storage.local.set({ studies });
-}
 
 function notification(study) {
   chrome.notifications.create(study.id, {
@@ -124,9 +126,8 @@ async function prolific() {
   try {
     const studies = await fetchStudies();
     setBadgeStudies(studies);
-    setStudies(studies);
+    setStudiesToStorage(studies);
     announceStudies(studies);
-    setChecked();
   } catch (error) {
     setBadgeError();
     window.console.error(error);
