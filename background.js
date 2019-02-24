@@ -20,7 +20,7 @@ const getStorage = (key) =>
  */
 const getIntervalFromStorage = () =>
   new Promise(async (resolve) => {
-    const { interval } = await getStorage('options');
+    const { interval } = (await getStorage('options')) || { interval: 60 };
     const ms = interval >= 60 ? interval * 1000 : 60 * 1000;
     resolve(ms);
   });
@@ -168,13 +168,19 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 
     if (authorizationHeaderExists) {
       headers = requestHeaders;
-    } else if (headers && method === 'GET') {
+    } else if (
+      headers &&
+      method === 'GET' &&
+      details.url.includes('https://www.prolific.ac/api/v1/studies/')
+    ) {
       return { requestHeaders: headers };
     }
 
     return {};
   },
-  { urls: ['https://www.prolific.ac/api/v1/studies*'] },
+  {
+    urls: ['https://*.prolific.ac/*'],
+  },
   ['blocking', 'requestHeaders'],
 );
 
