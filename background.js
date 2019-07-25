@@ -112,7 +112,7 @@ async function announceStudies(studies) {
     const options = await getStorage('options');
 
     if (options.announce) {
-      chrome.tts.speak('New studies availale on Prolific.', {
+      chrome.tts.speak('New studies available on Prolific.', {
         enqueue: true,
         voiceName: 'Google US English',
       });
