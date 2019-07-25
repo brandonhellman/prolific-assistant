@@ -5,7 +5,7 @@
 
   "version": "2.0.6",
 
-  "description": "Monitors https://prolific.ac/ for new studies.",
+  "description": "Monitors https://prolific.co/ for new studies.",
 
   "icons": {
     "16": "prolific.png",
@@ -31,7 +31,7 @@
     "notifications",
     "webRequest",
     "webRequestBlocking",
-    "https://*.prolific.ac/*"
+    "https://*.prolific.co/*"
   ],
 
   "short_name": "PA"

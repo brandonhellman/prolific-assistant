@@ -12,7 +12,7 @@ function displayOptions(options) {
 function studyHTML(study) {
   return `<div class="card mt-2">
     <div class="card-header p-0" style="line-height: 1;">
-      <b><a href="https://app.prolific.ac/studies" target="_blank">${
+      <b><a href="https://app.prolific.co/studies" target="_blank">${
         study.name
       }</a></b>
     </div>
@@ -62,7 +62,7 @@ function displayStudies(studies) {
       .getElementById('studies')
       .insertAdjacentHTML(
         'beforeend',
-        '<a href="https://app.prolific.ac/studies" target="_blank">No Studies</a>',
+        '<a href="https://app.prolific.co/studies" target="_blank">No Studies</a>',
       );
   }
 }
