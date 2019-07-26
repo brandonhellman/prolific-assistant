@@ -5,7 +5,7 @@ function displayChecked(checked) {
 }
 
 function displayOptions(options) {
-  document.getElementById('announce').checked = options.announce;
+  document.getElementById('alert').value = options.alert;
   document.getElementById('interval').value = options.interval;
 }
 
