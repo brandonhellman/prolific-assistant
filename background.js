@@ -111,11 +111,24 @@ async function announceStudies(studies) {
 
     const options = await getStorage('options');
 
-    if (options.announce) {
-      chrome.tts.speak('New studies available on Prolific.', {
-        enqueue: true,
-        voiceName: 'Google US English',
-      });
+    switch (options.alert) {
+      case 'none':
+        // no sound for you
+        break;
+      case 'sweet-alert-1':
+      case 'sweet-alert-2':
+      case 'sweet-alert-3':
+      case 'sweet-alert-4':
+      case 'sweet-alert-5':
+        const audio = new Audio(`/audio/${option.alert}.wav`);
+        audio.play();
+        break;
+      case 'voice':
+        chrome.tts.speak('New studies available on Prolific.', {
+          enqueue: true,
+          voiceName: 'Google US English',
+        });
+        break;
     }
   }
 }
@@ -141,10 +154,10 @@ chrome.storage.local.get(null, (items) => {
 
   if (
     !options ||
-    !Object.prototype.hasOwnProperty.call(options, 'announce') ||
+    !Object.prototype.hasOwnProperty.call(options, 'alert') ||
     !Object.prototype.hasOwnProperty.call(options, 'interval')
   ) {
-    chrome.storage.local.set({ options: { announce: true, interval: 60 } });
+    chrome.storage.local.set({ options: { alert: 'voice', interval: 60 } });
   }
 
   chrome.storage.local.set({ studies: {} });

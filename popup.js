@@ -76,10 +76,32 @@ chrome.storage.local.get(null, (items) => {
   displayStudies(studies);
 });
 
-document.addEventListener('change', () => {
+document.addEventListener('change', (event) => {
   const interval = document.getElementById('interval').value;
-  const announce = document.getElementById('announce').checked;
+  const alert = document.getElementById('alert').value;
 
-  chrome.storage.local.set({ options: { announce, interval } });
+  chrome.storage.local.set({ options: { alert, interval } });
   chrome.runtime.sendMessage({ prolific: true });
+
+  if (event.target.id === 'alert') {
+    switch (event.target.value) {
+      case 'none':
+        // no sound for you
+        break;
+      case 'sweet-alert-1':
+      case 'sweet-alert-2':
+      case 'sweet-alert-3':
+      case 'sweet-alert-4':
+      case 'sweet-alert-5':
+        const audio = new Audio(`/audio/${event.target.value}.wav`);
+        audio.play();
+        break;
+      case 'voice':
+        chrome.tts.speak('Test: New studies available on Prolific.', {
+          enqueue: true,
+          voiceName: 'Google US English',
+        });
+        break;
+    }
+  }
 });
