@@ -27,7 +27,7 @@ interface ProlificStudy {
   total_available_places: number;
 }
 
-interface ProlificStudiesResponse {
+interface ProlificApiStudies {
   meta: {
     count: number;
   };
