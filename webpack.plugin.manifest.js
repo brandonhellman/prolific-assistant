@@ -18,7 +18,7 @@ module.exports = new CopyWebpackPlugin([
         author: package.author,
         description: package.description,
         manifest_version: 2,
-        name: package.name,
+        name: package.productName || package.name,
         version: package.version,
         ...JSON.parse(string),
       };
