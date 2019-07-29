@@ -1,7 +1,7 @@
 {
   "name": "prolific-assistant",
   "productName": "Prolific Assistant",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A template for building cross browser web extensions.",
   "license": "ISC",
   "scripts": {
