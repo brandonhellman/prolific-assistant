@@ -2,20 +2,8 @@
   // "author": "{package.author}",
   // "description": "{package.description}",
   // "manifest_version": 2,
-  // "name": "{package.name}",
+  // "name": "{package.productName || package.name}",
   // "version": "{package.version}",
-
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": true
-  },
-
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content_scripts/script.js"]
-    }
-  ],
 
   "icons": {
     "16": "assets/icon.png",
@@ -23,10 +11,8 @@
     "128": "assets/icon.png"
   },
 
-  "permissions": ["<all_urls>"],
-
   "browser_action": {
-    // "default_title": "{package.name}",
+    // "default_title": "{package.productName || package.name}",
     "default_icon": "assets/icon.png",
     "default_popup": "popup.html"
   },
@@ -34,5 +20,12 @@
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
-  }
+  },
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+
+  "permissions": ["tts", "storage", "notifications", "webRequest", "webRequestBlocking", "https://*.prolific.co/*"]
 }

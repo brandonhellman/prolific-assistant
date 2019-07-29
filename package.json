@@ -2,7 +2,7 @@
   "name": "prolific-assistant",
   "productName": "Prolific Assistant",
   "version": "3.0.0",
-  "description": "A template for building cross browser web extensions.",
+  "description": "Monitors https://prolific.co/ for new studies.",
   "license": "ISC",
   "scripts": {
     "build": "npx webpack",
