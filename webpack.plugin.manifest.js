@@ -25,7 +25,7 @@ module.exports = new CopyWebpackPlugin([
 
       // Add a default_title to the browser_action if none is defined.
       if (manifest.browser_action && !manifest.browser_action.default_title) {
-        manifest.browser_action.default_title = package.name;
+        manifest.browser_action.default_title = package.productName || package.name;
       }
 
       return JSON.stringify(manifest, null, 2);
