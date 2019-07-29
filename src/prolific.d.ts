@@ -17,8 +17,8 @@ interface ProlificStudy {
     id: string;
     name: string;
     institution: {
-      name: null;
-      logo: null;
+      name: string | null;
+      logo: string | null;
       link: string;
     };
   };
