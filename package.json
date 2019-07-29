@@ -5,7 +5,7 @@
   "description": "Monitors https://prolific.co/ for new studies.",
   "license": "ISC",
   "scripts": {
-    "build": "npx webpack",
+    "build": "npm run clean:build && npx webpack",
     "clean": "node npm.clean.js --paths build dist",
     "clean:build": "node npm.clean.js -p build",
     "clean:dist": "node npm.clean.js -p dist",
