@@ -11,7 +11,7 @@ module.exports = new CopyWebpackPlugin([
     to: path.join(__dirname, 'build', 'manifest.json'),
     transform(content) {
       // Convert buffer to string and remove comments.
-      const string = content.toString().replace(/\/\/.+/g, '');
+      const string = content.toString().replace(/^(\s+)?\/\/.+/gm, '');
 
       // Merge the manifest built from package.json and the manifest.json file.
       const manifest = {
