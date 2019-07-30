@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-
-import 'bootstrap/dist/css/bootstrap.css';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Tab from 'react-bootstrap/Tab';
+import 'bootstrap/dist/css/bootstrap.css';
 
-import { selectSettings } from '../store/settings/selectors';
-import { selectProlificStudies } from '../store/prolific/selectors';
+import { StudiesPane } from '../containers/StudiesPane';
+import { SettingsPane } from '../containers/SettingsPane';
 
 export function App() {
-  const settings = useSelector(selectSettings);
-  const studies = useSelector(selectProlificStudies);
   const [key, setKey] = useState('studies');
 
   function onSelect(k: string) {
@@ -31,14 +27,8 @@ export function App() {
         </Navbar>
 
         <Tab.Content style={{ flex: 1 }}>
-          <Tab.Pane eventKey="studies">
-            {studies.length ? (
-              studies.map((study) => <div key={study.id}>study.id</div>)
-            ) : (
-              <div className="text-center">No studies available.</div>
-            )}
-          </Tab.Pane>
-          <Tab.Pane eventKey="settings">settings</Tab.Pane>
+          <StudiesPane />
+          <SettingsPane />
         </Tab.Content>
 
         <Nav className="w-100" style={{ bottom: 0 }} variant="pills">
