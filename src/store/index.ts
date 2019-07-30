@@ -22,7 +22,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export type AppState = ReturnType<typeof rootReducer>;
 
-export default function configureStore(...middlewares: Middleware[]) {
+export function configureStore(...middlewares: Middleware[]) {
   const store = createStore(persistedReducer, applyMiddleware(...middlewares));
   persistStore(store);
   wrapStore(store);
