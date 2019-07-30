@@ -1,12 +1,9 @@
-import { wrapStore } from 'webext-redux';
-
 import { fetchProlificStudies } from '../functions/fetchProlificStudies';
 import configureStore from '../store';
 import { newStudiesMiddleware } from '../store/newStudiesMiddleware';
 import { prolificStudiesUpdate } from '../store/prolific/actions';
 
 const store = configureStore(newStudiesMiddleware);
-wrapStore(store);
 
 let headers: chrome.webRequest.HttpHeader[];
 let timeout = setTimeout(main);
