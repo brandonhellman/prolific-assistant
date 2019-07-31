@@ -1,0 +1,25 @@
+.study-card:hover {
+  background: rgba(0, 123, 255, 0.25);
+  cursor: pointer;
+}
+
+.split-with-bullets *:not(:first-child)::before {
+  content: ' • ';
+}
+
+.tooltip-inner {
+  max-width: 500;
+}
+
+.tooltip-table {
+  color: #f8f9fa !important;
+}
+
+.tooltip-table td {
+  text-align: right !important;
+}
+
+.tooltip-table td:last-child {
+  font-weight: bolder;
+  padding-left: 5px;
+}

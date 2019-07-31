@@ -5,6 +5,9 @@ import { Store } from 'webext-redux';
 
 import { App } from '../components/App';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import './popup.css';
+
 const store = new Store();
 
 store.ready().then(() => {
