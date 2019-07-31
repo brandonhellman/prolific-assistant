@@ -1,11 +1,4 @@
 {
-  "env": {
-    "browser": true,
-    "webextensions": true
-  },
-  "extends": ["airbnb-base", "prettier"],
-  "rules": {
-    "camelcase": 0,
-    "linebreak-style": 0
-  }
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"]
 }

@@ -1,0 +1,34 @@
+{
+  // "author": "{package.author}",
+  // "description": "{package.description}",
+  // "manifest_version": 2,
+  // "name": "{package.productName || package.name}",
+  // "version": "{package.version}",
+
+  "icons": {
+    "16": "assets/icon.png",
+    "48": "assets/icon.png",
+    "128": "assets/icon.png"
+  },
+
+  "browser_action": {
+    // "default_title": "{package.productName || package.name}",
+    "default_icon": "assets/icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+
+  "permissions": [
+    "notifications",
+    "storage",
+    "tabs",
+    "tts",
+    "webRequest",
+    "webRequestBlocking",
+    "https://*.prolific.co/*"
+  ]
+}
