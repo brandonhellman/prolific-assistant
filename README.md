@@ -1,8 +1,8 @@
-# web-extension-template
+# prolific-assistant
 
 ## Installation
 
-1. Clone the repo `git clone https://github.com/Kadauchi/web-extension-template`
+1. Clone the repo `git clone https://github.com/Kadauchi/prolific-assistant`
 2. Run `npm i`
 
 ## Development
