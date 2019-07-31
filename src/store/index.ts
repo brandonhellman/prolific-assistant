@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import { wrapStore } from 'webext-redux';
 
 import { prolificReducer } from './prolific/reducers';
+import { sessionReducer } from './session/reducers';
 import { settingsReducer } from './settings/reducers';
 
 const persistConfig = {
@@ -15,6 +16,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   prolific: prolificReducer,
+  session: sessionReducer,
   settings: settingsReducer,
 });
 
