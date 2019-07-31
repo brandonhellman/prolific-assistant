@@ -17,12 +17,12 @@ export function App() {
     <Tab.Container activeKey={key} onSelect={onSelect}>
       <Header />
 
-      <Tab.Content style={{ flex: 1 }}>
+      <Tab.Content>
         <StudiesPane />
         <SettingsPane />
       </Tab.Content>
 
-      <Nav className="w-100" style={{ bottom: 0 }} variant="pills">
+      <Nav className="w-100" variant="pills">
         <Nav.Item className="text-center w-50">
           <Nav.Link eventKey="studies">Studies</Nav.Link>
         </Nav.Item>
