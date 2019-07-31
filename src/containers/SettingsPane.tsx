@@ -31,7 +31,7 @@ export function SettingsPane() {
   }
 
   return (
-    <Tab.Pane eventKey="settings">
+    <Tab.Pane className="p-1" eventKey="settings">
       <Form.Group>
         <Form.Label>Check Interval</Form.Label>
         <Form.Control type="number" onChange={onChangeCheckInterval} value={settings.check_interval.toString()} />
