@@ -9,7 +9,7 @@ interface ProlificStudy {
   is_desktop_compatible: boolean;
   is_mobile_compatible: boolean;
   is_tablet_compatible: boolean;
-  maximum_allowed_time: 14;
+  maximum_allowed_time: number;
   name: string;
   places_taken: number;
   published_at: string;
