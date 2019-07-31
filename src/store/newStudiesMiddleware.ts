@@ -1,6 +1,6 @@
 import { Middleware } from 'redux';
 
-import { centsToEuro } from '../functions/centsToEuro';
+import { centsToGBP } from '../functions/centsToGBP';
 import { AppState } from '../store';
 import { PROLIFIC_STUDIES_UPDATE } from '../store/prolific/types';
 
@@ -27,7 +27,7 @@ export const newStudiesMiddleware: Middleware = (store) => (next) => (action) =>
             },
             {
               title: 'Reward',
-              message: `${centsToEuro(study.reward)} | Avg. ${centsToEuro(study.average_reward_per_hour)}`,
+              message: `${centsToGBP(study.reward)} | Avg. ${centsToGBP(study.average_reward_per_hour)}`,
             },
             {
               title: 'Places',

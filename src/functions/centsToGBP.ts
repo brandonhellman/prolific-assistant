@@ -1,6 +1,6 @@
-export function centsToEuro(cents: number) {
+export function centsToGBP(cents: number) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'EUR',
+    currency: 'GBP',
   }).format(cents * 0.01);
 }
