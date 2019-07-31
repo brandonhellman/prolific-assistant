@@ -1,12 +1,16 @@
 import { Middleware } from 'redux';
 
 import { centsToGBP } from '../functions/centsToGBP';
-import { AppState } from '../store';
-import { PROLIFIC_STUDIES_UPDATE } from '../store/prolific/types';
+import { playAlertSound } from '../functions/playAlertSound';
+
+import { AppState } from '.';
+import { PROLIFIC_STUDIES_UPDATE } from './prolific/types';
 
 const seen: ProlificStudy['id'][] = [];
 
-export const newStudiesMiddleware: Middleware = (store) => (next) => (action) => {
+export const prolificStudiesUpdateMiddleware: Middleware = (store) => (next) => (action) => {
+  const result = next(action);
+
   if (action.type === PROLIFIC_STUDIES_UPDATE) {
     const state: AppState = store.getState();
     const studies: ProlificStudy[] = action.payload;
@@ -44,26 +48,9 @@ export const newStudiesMiddleware: Middleware = (store) => (next) => (action) =>
     }, []);
 
     if (newStudies.length) {
-      switch (state.settings.alert_sound) {
-        case 'none':
-          break;
-        case 'sweet-alert-1':
-        case 'sweet-alert-2':
-        case 'sweet-alert-3':
-        case 'sweet-alert-4':
-        case 'sweet-alert-5':
-          const audio = new Audio(`/assets/audio/${state.settings.alert_sound}.wav`);
-          audio.play();
-          break;
-        case 'voice':
-          chrome.tts.speak('New studies available on Prolific.', {
-            enqueue: true,
-            voiceName: 'Google US English',
-          });
-          break;
-      }
+      playAlertSound(state);
     }
   }
 
-  return next(action);
+  return result;
 };

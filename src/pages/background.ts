@@ -1,11 +1,12 @@
 import { fetchProlificStudies } from '../functions/fetchProlificStudies';
 import { openProlificStudy } from '../functions/openProlificStudy';
 import { configureStore } from '../store';
-import { newStudiesMiddleware } from '../store/newStudiesMiddleware';
 import { prolificStudiesUpdate } from '../store/prolific/actions';
 import { sessionLastChecked } from '../store/session/action';
+import { prolificStudiesUpdateMiddleware } from '../store/prolificStudiesUpdateMiddleware';
+import { settingsAlertSoundMiddleware } from '../store/settingsAlertSoundMiddleware';
 
-const store = configureStore(newStudiesMiddleware);
+const store = configureStore(prolificStudiesUpdateMiddleware, settingsAlertSoundMiddleware);
 
 let authTab: chrome.tabs.Tab & { loggedOut?: boolean };
 let headers: chrome.webRequest.HttpHeader[];
@@ -49,7 +50,6 @@ chrome.notifications.onButtonClicked.addListener((notificationId) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (authTab && authTab.id == tabId && !authTab.loggedOut) {
     if (changeInfo.status == 'complete') {
-      console.log('chrome.tabs.onUpdated', tabId, tab, authTab);
       if (tab.url === 'https://app.prolific.co/login') {
         authTab.loggedOut = true;
         chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
