@@ -22,5 +22,13 @@
     "persistent": true
   },
 
-  "permissions": ["tts", "storage", "notifications", "webRequest", "webRequestBlocking", "https://*.prolific.co/*"]
+  "permissions": [
+    "notifications",
+    "storage",
+    "tabs",
+    "tts",
+    "webRequest",
+    "webRequestBlocking",
+    "https://*.prolific.co/*"
+  ]
 }
