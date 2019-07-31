@@ -3,6 +3,7 @@ import { openProlificStudy } from '../functions/openProlificStudy';
 import { configureStore } from '../store';
 import { newStudiesMiddleware } from '../store/newStudiesMiddleware';
 import { prolificStudiesUpdate } from '../store/prolific/actions';
+import { sessionLastChecked } from '../store/session/action';
 
 const store = configureStore(newStudiesMiddleware);
 
@@ -16,6 +17,7 @@ async function main() {
   try {
     const studies = await fetchProlificStudies();
     store.dispatch(prolificStudiesUpdate(studies));
+    store.dispatch(sessionLastChecked());
     chrome.browserAction.setBadgeText({ text: studies.length ? studies.length.toString() : '' });
     chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
   } catch (error) {
