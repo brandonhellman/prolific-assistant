@@ -1,4 +1,5 @@
 import { fetchProlificStudies } from '../functions/fetchProlificStudies';
+import { openProlificStudy } from '../functions/openProlificStudy';
 import { configureStore } from '../store';
 import { newStudiesMiddleware } from '../store/newStudiesMiddleware';
 import { prolificStudiesUpdate } from '../store/prolific/actions';
@@ -28,8 +29,8 @@ async function main() {
 }
 
 chrome.notifications.onButtonClicked.addListener((notificationId) => {
-  window.open(`https://app.prolific.co/studies/${notificationId}`);
   chrome.notifications.clear(notificationId);
+  openProlificStudy(notificationId);
 });
 
 chrome.webRequest.onBeforeSendHeaders.addListener(
