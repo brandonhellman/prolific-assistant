@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import Tab from 'react-bootstrap/Tab';
 
+import { Header } from '../containers/Header';
 import { StudiesPane } from '../containers/StudiesPane';
 import { SettingsPane } from '../containers/SettingsPane';
 
@@ -15,19 +15,7 @@ export function App() {
 
   return (
     <Tab.Container activeKey={key} onSelect={onSelect}>
-      <Navbar bg="primary" variant="dark">
-        <Nav className="mr-auto">
-          <Nav.Link href="https://app.prolific.co/studies" target="_blank">
-            Studies
-          </Nav.Link>
-          <Nav.Link href="https://app.prolific.co/account" target="_blank">
-            Account
-          </Nav.Link>
-        </Nav>
-        <Nav>
-          <Nav.Item className="text-light">Last checked: some time</Nav.Item>
-        </Nav>
-      </Navbar>
+      <Header />
 
       <Tab.Content style={{ flex: 1 }}>
         <StudiesPane />
