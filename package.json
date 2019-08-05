@@ -5,14 +5,8 @@
   "description": "Monitors https://prolific.co/ for new studies.",
   "license": "ISC",
   "scripts": {
-    "build": "npm run clean:build && npx webpack",
-    "clean": "node npm.clean.js --paths build dist",
-    "clean:build": "node npm.clean.js -p build",
-    "clean:dist": "node npm.clean.js -p dist",
-    "dist": "npm run build && node npm.dist.js --targets chrome firefox",
-    "dist:chrome": "npm run build && node npm.dist.js -t chrome",
-    "dist:firefox": "npm run build && node npm.dist.js -t firefox",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "create-browser-ext-scripts start",
+    "build": "create-browser-ext-scripts build"
   },
   "dependencies": {
     "@types/chrome": "0.0.86",
