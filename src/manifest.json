@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "__package.name__",
+  "name": "Prolific Assistant",
   "version": "__package.version__",
 
   "icons": {
@@ -10,7 +10,7 @@
   },
 
   "browser_action": {
-    "default_title": "__package.name__",
+    "default_title": "Prolific Assistant",
     "default_icon": "icon.png",
     "default_popup": "pages/popup.html"
   },
