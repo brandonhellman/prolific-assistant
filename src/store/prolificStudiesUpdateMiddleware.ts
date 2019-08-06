@@ -23,7 +23,7 @@ export const prolificStudiesUpdateMiddleware: Middleware = (store) => (next) => 
           type: 'list',
           title: study.name,
           message: '',
-          iconUrl: 'assets/icon.png',
+          iconUrl: 'icon.png',
           items: [
             {
               title: 'Hosted By',
