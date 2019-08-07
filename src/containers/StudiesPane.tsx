@@ -44,12 +44,14 @@ export function StudiesPane() {
                         overlay={
                           <Tooltip id="reward-tooltip">
                             <table className="tooltip-table">
-                              <tr>
-                                <td>Reward:</td>
-                                <td>
-                                  <strong>{centsToGBP(study.reward)}</strong>
-                                </td>
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Reward:</td>
+                                  <td>
+                                    <strong>{centsToGBP(study.reward)}</strong>
+                                  </td>
+                                </tr>
+                              </tbody>
                             </table>
                           </Tooltip>
                         }
@@ -60,24 +62,26 @@ export function StudiesPane() {
                         overlay={
                           <Tooltip id="time-tooltip">
                             <table className="tooltip-table">
-                              <tr>
-                                <td>Estimated completion time:</td>
-                                <td>
-                                  <strong>{study.estimated_completion_time} minutes</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Average completion time:</td>
-                                <td>
-                                  <strong>{study.average_completion_time} minutes</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Maximum allowed time:</td>
-                                <td>
-                                  <strong>{study.maximum_allowed_time} minutes</strong>
-                                </td>
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Estimated completion time:</td>
+                                  <td>
+                                    <strong>{study.estimated_completion_time} minutes</strong>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Average completion time:</td>
+                                  <td>
+                                    <strong>{study.average_completion_time} minutes</strong>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Maximum allowed time:</td>
+                                  <td>
+                                    <strong>{study.maximum_allowed_time} minutes</strong>
+                                  </td>
+                                </tr>
+                              </tbody>
                             </table>
                           </Tooltip>
                         }
@@ -88,18 +92,20 @@ export function StudiesPane() {
                         overlay={
                           <Tooltip id="per-hour-tooltip">
                             <table className="tooltip-table">
-                              <tr>
-                                <td>Estimated reward per hour:</td>
-                                <td>
-                                  <strong>{centsToGBP(study.estimated_reward_per_hour)}/hr</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Average reward per hour:</td>
-                                <td>
-                                  <strong>{centsToGBP(study.average_reward_per_hour)}/hr</strong>
-                                </td>
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Estimated reward per hour:</td>
+                                  <td>
+                                    <strong>{centsToGBP(study.estimated_reward_per_hour)}/hr</strong>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Average reward per hour:</td>
+                                  <td>
+                                    <strong>{centsToGBP(study.average_reward_per_hour)}/hr</strong>
+                                  </td>
+                                </tr>
+                              </tbody>
                             </table>
                           </Tooltip>
                         }
@@ -110,26 +116,28 @@ export function StudiesPane() {
                         overlay={
                           <Tooltip id="places-tooltip">
                             <table className="tooltip-table">
-                              <tr>
-                                <td>Total available places:</td>
-                                <td>
-                                  <strong>{study.total_available_places}</strong>
-                                </td>
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Total available places:</td>
+                                  <td>
+                                    <strong>{study.total_available_places}</strong>
+                                  </td>
+                                </tr>
 
-                              <tr>
-                                <td>Places taken:</td>
-                                <td>
-                                  <strong>{study.places_taken}</strong>
-                                </td>
-                              </tr>
+                                <tr>
+                                  <td>Places taken:</td>
+                                  <td>
+                                    <strong>{study.places_taken}</strong>
+                                  </td>
+                                </tr>
 
-                              <tr>
-                                <td>Places remaining:</td>
-                                <td>
-                                  <strong>{study.total_available_places - study.places_taken}</strong>
-                                </td>
-                              </tr>
+                                <tr>
+                                  <td>Places remaining:</td>
+                                  <td>
+                                    <strong>{study.total_available_places - study.places_taken}</strong>
+                                  </td>
+                                </tr>
+                              </tbody>
                             </table>
                           </Tooltip>
                         }
