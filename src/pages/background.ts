@@ -43,7 +43,7 @@ async function main() {
   timeout = window.setTimeout(main, state.settings.check_interval * 1000);
 }
 
-browser.notifications.onButtonClicked.addListener((notificationId) => {
+browser.notifications.onClicked.addListener((notificationId) => {
   browser.notifications.clear(notificationId);
   openProlificStudy(notificationId);
 });
