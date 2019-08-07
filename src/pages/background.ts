@@ -1,3 +1,5 @@
+import { browser, Tabs, WebRequest } from 'webextension-polyfill-ts';
+
 import { fetchProlificStudies } from '../functions/fetchProlificStudies';
 import { openProlificStudy } from '../functions/openProlificStudy';
 import { configureStore } from '../store';
@@ -8,14 +10,13 @@ import { settingsAlertSoundMiddleware } from '../store/settingsAlertSoundMiddlew
 
 const store = configureStore(prolificStudiesUpdateMiddleware, settingsAlertSoundMiddleware);
 
-let authTab: chrome.tabs.Tab & { loggedOut?: boolean };
-let headers: chrome.webRequest.HttpHeader[];
-let timeout = setTimeout(main);
+let authTab: Tabs.Tab & { loggedOut?: boolean };
+let headers: WebRequest.HttpHeaders;
+let timeout = window.setTimeout(main);
 
-function openAuthTab() {
-  chrome.tabs.create({ url: 'https://app.prolific.co/', active: false }, (tab) => {
-    authTab = tab;
-  });
+async function openAuthTab() {
+  const tab = await browser.tabs.create({ url: 'https://app.prolific.co/', active: false });
+  authTab = tab;
 }
 
 async function main() {
@@ -27,38 +28,38 @@ async function main() {
       const studies = await fetchProlificStudies();
       store.dispatch(prolificStudiesUpdate(studies));
       store.dispatch(sessionLastChecked());
-      chrome.browserAction.setBadgeText({ text: studies.length ? studies.length.toString() : '' });
-      chrome.browserAction.setBadgeBackgroundColor({ color: 'red' });
+      browser.browserAction.setBadgeText({ text: studies.length ? studies.length.toString() : '' });
+      browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
     } catch (error) {
       store.dispatch(prolificStudiesUpdate([]));
-      chrome.browserAction.setBadgeText({ text: '!' });
-      chrome.browserAction.setBadgeBackgroundColor({ color: 'black' });
+      browser.browserAction.setBadgeText({ text: '!' });
+      browser.browserAction.setBadgeBackgroundColor({ color: 'black' });
       window.console.error('fetchProlificStudies error', error);
     }
   } else if (!authTab) {
     openAuthTab();
   }
 
-  timeout = setTimeout(main, state.settings.check_interval * 1000);
+  timeout = window.setTimeout(main, state.settings.check_interval * 1000);
 }
 
-chrome.notifications.onButtonClicked.addListener((notificationId) => {
-  chrome.notifications.clear(notificationId);
+browser.notifications.onButtonClicked.addListener((notificationId) => {
+  browser.notifications.clear(notificationId);
   openProlificStudy(notificationId);
 });
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (authTab && authTab.id == tabId && !authTab.loggedOut) {
     if (changeInfo.status == 'complete') {
       if (tab.url === 'https://app.prolific.co/login') {
         authTab.loggedOut = true;
-        chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
+        browser.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
       }
     }
   }
 });
 
-chrome.webRequest.onBeforeSendHeaders.addListener(
+browser.webRequest.onBeforeSendHeaders.addListener(
   (details) => {
     const hasAuthHeader = details.requestHeaders.some((header) => header.name === 'Authorization');
 
@@ -68,7 +69,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       if (authTab && authTab.id === details.tabId && !authTab.loggedOut) {
         main();
         authTab = null;
-        chrome.tabs.remove(details.tabId);
+        browser.tabs.remove(details.tabId);
       }
     }
 
