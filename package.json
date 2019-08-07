@@ -24,6 +24,7 @@
     "redux-persist": "^5.10.0",
     "typescript": "^3.5.3",
     "web-extension-scripts": "^0.1.2",
-    "webext-redux": "^2.1.2"
+    "webext-redux": "^2.1.2",
+    "webextension-polyfill-ts": "^0.9.1"
   }
 }
