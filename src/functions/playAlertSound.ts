@@ -14,11 +14,9 @@ export function playAlertSound(state: AppState) {
       audio.play();
       break;
     case 'voice':
-      chrome.tts.speak('New studies available on Prolific.', {
-        enqueue: true,
-        voiceName: 'Google US English',
-        volume: state.settings.alert_volume / 100,
-      });
+      const speech = new SpeechSynthesisUtterance('New studies available on Prolific.');
+      speech.volume = state.settings.alert_volume / 100;
+      speechSynthesis.speak(speech);
       break;
   }
 }
