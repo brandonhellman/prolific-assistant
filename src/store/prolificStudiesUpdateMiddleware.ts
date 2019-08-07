@@ -1,3 +1,4 @@
+import { browser } from 'webextension-polyfill-ts';
 import { Middleware } from 'redux';
 
 import { centsToGBP } from '../functions/centsToGBP';
@@ -19,11 +20,11 @@ export const prolificStudiesUpdateMiddleware: Middleware = (store) => (next) => 
       if (!seen.includes(study.id)) {
         seen.push(study.id);
 
-        chrome.notifications.create(study.id, {
+        browser.notifications.create(study.id, {
           type: 'list',
           title: study.name,
           message: '',
-          iconUrl: 'assets/icon.png',
+          iconUrl: 'icon.png',
           items: [
             {
               title: 'Hosted By',
@@ -38,7 +39,6 @@ export const prolificStudiesUpdateMiddleware: Middleware = (store) => (next) => 
               message: `${study.total_available_places - study.places_taken}`,
             },
           ],
-          buttons: [{ title: 'Open' }],
         });
 
         return [...acc, study];
