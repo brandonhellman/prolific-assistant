@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create Web Extension](https://github.com/kadauchi/create-web-extension).
+This project was bootstrapped with [WebExtension Create](https://github.com/kadauchi/webextension-create).
 
 ## Available Scripts
 
@@ -29,4 +29,4 @@ Compiles the extension and packages them into production ready zips at `./build/
 
 ---
 
-Documentation: https://github.com/kadauchi/create-web-extension#create-web-extension
+Documentation: https://github.com/kadauchi/webextension-create#webextension-create

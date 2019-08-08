@@ -5,8 +5,8 @@
   "description": "Monitors https://prolific.co/ for new studies.",
   "license": "ISC",
   "scripts": {
-    "start": "web-extension-scripts start",
-    "build": "web-extension-scripts build"
+    "start": "webextension-scripts start",
+    "build": "webextension-scripts build"
   },
   "dependencies": {
     "@types/react": "^16.8.25",
@@ -22,9 +22,9 @@
     "redux": "^4.0.4",
     "redux-persist": "^5.10.0",
     "typescript": "^3.5.3",
-    "web-extension-scripts": "^0.1.5",
     "webext-redux": "^2.1.2",
-    "webextension-polyfill-ts": "^0.9.1"
+    "webextension-polyfill-ts": "^0.9.1",
+    "webextension-scripts": "^0.2.0"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
