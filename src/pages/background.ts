@@ -3,7 +3,7 @@ import { browser, Tabs, WebRequest } from 'webextension-polyfill-ts';
 import { fetchProlificStudies } from '../functions/fetchProlificStudies';
 import { openProlificStudy } from '../functions/openProlificStudy';
 import { configureStore } from '../store';
-import { prolificStudiesUpdate } from '../store/prolific/actions';
+import { prolificStudiesUpdate, prolificErrorUpdate } from '../store/prolific/actions';
 import { sessionLastChecked } from '../store/session/action';
 import { prolificStudiesUpdateMiddleware } from '../store/prolificStudiesUpdateMiddleware';
 import { settingsAlertSoundMiddleware } from '../store/settingsAlertSoundMiddleware';
@@ -11,10 +11,12 @@ import { settingsAlertSoundMiddleware } from '../store/settingsAlertSoundMiddlew
 const store = configureStore(prolificStudiesUpdateMiddleware, settingsAlertSoundMiddleware);
 
 let authTab: Tabs.Tab & { loggedOut?: boolean };
-let headers: WebRequest.HttpHeaders;
+let authHeader: WebRequest.HttpHeadersItemType;
+
 let timeout = window.setTimeout(main);
 
 async function openAuthTab() {
+  authHeader = null;
   const tab = await browser.tabs.create({ url: 'https://app.prolific.co/', active: false });
   authTab = tab;
 }
@@ -23,16 +25,34 @@ async function main() {
   clearTimeout(timeout);
   const state = store.getState();
 
-  if (headers) {
+  if (authHeader) {
     try {
-      const studies = await fetchProlificStudies();
-      store.dispatch(prolificStudiesUpdate(studies));
+      const response = await fetchProlificStudies();
+
       store.dispatch(sessionLastChecked());
-      browser.browserAction.setBadgeText({ text: studies.length ? studies.length.toString() : '' });
-      browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
+
+      if (response.results) {
+        store.dispatch(prolificStudiesUpdate(response.results));
+
+        browser.browserAction.setBadgeText({ text: response.results.length ? response.results.length.toString() : '' });
+        browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
+      }
+
+      if (response.error) {
+        if (response.error.status === 401) {
+          store.dispatch(prolificErrorUpdate(response.error.status));
+          browser.browserAction.setBadgeText({ text: '!' });
+          browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
+          openAuthTab();
+        } else {
+          store.dispatch(prolificStudiesUpdate([]));
+          browser.browserAction.setBadgeText({ text: 'ERR' });
+          browser.browserAction.setBadgeBackgroundColor({ color: 'black' });
+        }
+      }
     } catch (error) {
       store.dispatch(prolificStudiesUpdate([]));
-      browser.browserAction.setBadgeText({ text: '!' });
+      browser.browserAction.setBadgeText({ text: 'ERR' });
       browser.browserAction.setBadgeBackgroundColor({ color: 'black' });
       window.console.error('fetchProlificStudies error', error);
     }
@@ -59,12 +79,13 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
+// Parse and save the Authorization header from any Prolific request.
 browser.webRequest.onBeforeSendHeaders.addListener(
   (details) => {
-    const hasAuthHeader = details.requestHeaders.some((header) => header.name === 'Authorization');
+    const foundAuthHeader = details.requestHeaders.find((header) => header.name === 'Authorization');
 
-    if (hasAuthHeader) {
-      headers = details.requestHeaders;
+    if (foundAuthHeader) {
+      authHeader = foundAuthHeader;
 
       if (authTab && authTab.id === details.tabId && !authTab.loggedOut) {
         main();
@@ -73,18 +94,27 @@ browser.webRequest.onBeforeSendHeaders.addListener(
       }
     }
 
-    if (details.tabId === -1 && details.url.includes('https://www.prolific.co/api/v1/studies/')) {
-      if (details.method === 'GET') {
-        if (headers) {
-          return { requestHeaders: headers };
-        }
-      }
+    return {};
+  },
+  {
+    urls: ['https://*.prolific.co/*'],
+  },
+  ['blocking', 'requestHeaders'],
+);
+
+// Add the auth header to any reqeuest from the background to the studies API.
+browser.webRequest.onBeforeSendHeaders.addListener(
+  (details) => {
+    if (authHeader && details.tabId === -1 && details.method === 'GET') {
+      return {
+        requestHeaders: [...details.requestHeaders, authHeader],
+      };
     }
 
     return {};
   },
   {
-    urls: ['https://*.prolific.co/*'],
+    urls: ['https://www.prolific.co/api/v1/studies/*'],
   },
   ['blocking', 'requestHeaders'],
 );

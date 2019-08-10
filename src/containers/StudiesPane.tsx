@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -10,9 +11,10 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 import { centsToGBP } from '../functions/centsToGBP';
 import { openProlificStudy } from '../functions/openProlificStudy';
-import { selectProlificStudies } from '../store/prolific/selectors';
+import { selectProlificError, selectProlificStudies } from '../store/prolific/selectors';
 
 export function StudiesPane() {
+  const error = useSelector(selectProlificError);
   const studies = useSelector(selectProlificStudies);
 
   return (
@@ -152,7 +154,15 @@ export function StudiesPane() {
           </Card>
         ))
       ) : (
-        <div className="p-3 text-center">No studies available.</div>
+        <div className="p-3 text-center">
+          {error === 401 ? (
+            <Button variant="primary" href="https://app.prolific.co/">
+              Login to Prolific.co
+            </Button>
+          ) : (
+            'No studies available.'
+          )}
+        </div>
       )}
     </Tab.Pane>
   );
