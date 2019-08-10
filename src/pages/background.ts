@@ -27,10 +27,9 @@ async function main() {
     try {
       const response = await fetchProlificStudies();
 
-      store.dispatch(sessionLastChecked());
-
       if (response.results) {
         store.dispatch(prolificStudiesUpdate(response.results));
+        store.dispatch(sessionLastChecked());
         browser.browserAction.setBadgeText({ text: response.results.length ? response.results.length.toString() : '' });
         browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
       }
