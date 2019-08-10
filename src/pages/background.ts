@@ -81,12 +81,22 @@ browser.webRequest.onBeforeSendHeaders.addListener(
     const foundAuthHeader = details.requestHeaders.find((header) => header.name === 'Authorization');
 
     if (foundAuthHeader) {
-      authHeader = foundAuthHeader;
+      let restart = false;
+
+      if (!authHeader) {
+        restart = true;
+      }
 
       if (authTab && authTab.id === details.tabId && !authTab.loggedOut) {
-        main();
+        restart = true;
         authTab = null;
         browser.tabs.remove(details.tabId);
+      }
+
+      authHeader = foundAuthHeader;
+
+      if (restart) {
+        main();
       }
     }
 
