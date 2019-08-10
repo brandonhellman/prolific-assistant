@@ -16,7 +16,7 @@
   },
 
   "background": {
-    "scripts": ["pages/background.js"],
+    "scripts": ["pages/background.ts"],
     "persistent": true
   },
 
