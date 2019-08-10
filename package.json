@@ -24,7 +24,7 @@
     "typescript": "^3.5.3",
     "webext-redux": "^2.1.2",
     "webextension-polyfill-ts": "^0.9.1",
-    "webextension-scripts": "^0.2.0"
+    "webextension-scripts": "^0.3.2"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
