@@ -12,12 +12,8 @@ export function Header() {
   return (
     <Navbar bg="primary" variant="dark">
       <Nav className="mr-auto">
-        <Nav.Link href="https://app.prolific.co/studies" target="_blank">
-          Studies
-        </Nav.Link>
-        <Nav.Link href="https://app.prolific.co/account" target="_blank">
-          Account
-        </Nav.Link>
+        <Nav.Link href="https://app.prolific.co/studies">Studies</Nav.Link>
+        <Nav.Link href="https://app.prolific.co/account">Account</Nav.Link>
       </Nav>
       <Nav>
         <Nav.Item className="text-light">
