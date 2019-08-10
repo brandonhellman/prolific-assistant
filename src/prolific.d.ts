@@ -28,8 +28,15 @@ interface ProlificStudy {
 }
 
 interface ProlificApiStudies {
-  meta: {
+  error: {
+    additional_information: '/api/v1/errors/';
+    detail: string;
+    error_code: number;
+    status: number;
+    title: string;
+  };
+  meta?: {
     count: number;
   };
-  results: ProlificStudy[];
+  results?: ProlificStudy[];
 }
