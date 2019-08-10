@@ -10,15 +10,13 @@ import { settingsAlertSoundMiddleware } from '../store/settingsAlertSoundMiddlew
 
 const store = configureStore(prolificStudiesUpdateMiddleware, settingsAlertSoundMiddleware);
 
-let authTab: Tabs.Tab & { loggedOut?: boolean };
 let authHeader: WebRequest.HttpHeadersItemType;
-
+let authTab: Tabs.Tab & { loggedOut?: boolean };
 let timeout = window.setTimeout(main);
 
 async function openAuthTab() {
   authHeader = null;
-  const tab = await browser.tabs.create({ url: 'https://app.prolific.co/', active: false });
-  authTab = tab;
+  authTab = await browser.tabs.create({ url: 'https://app.prolific.co/', active: false });
 }
 
 async function main() {
@@ -33,7 +31,6 @@ async function main() {
 
       if (response.results) {
         store.dispatch(prolificStudiesUpdate(response.results));
-
         browser.browserAction.setBadgeText({ text: response.results.length ? response.results.length.toString() : '' });
         browser.browserAction.setBadgeBackgroundColor({ color: 'red' });
       }
