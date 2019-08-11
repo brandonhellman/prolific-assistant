@@ -1,7 +1,7 @@
 {
   "name": "prolific-assistant",
   "productName": "Prolific Assistant",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Monitors https://prolific.co/ for new studies.",
   "license": "ISC",
   "scripts": {
