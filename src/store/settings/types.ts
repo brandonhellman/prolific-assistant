@@ -9,11 +9,13 @@ export interface SettingsState {
     | 'sweet-alert-5';
   alert_volume: number;
   check_interval: number;
+  desktop_notifications: boolean;
 }
 
 export const SETTING_ALERT_SOUND = 'SETTING_ALERT_SOUND';
 export const SETTING_ALERT_VOLUME = 'SETTING_ALERT_VOLUME';
 export const SETTING_CHECK_INTERVAL = 'SETTING_CHECK_INTERVAL';
+export const SETTING_DESKTOP_NOTIFICATIONS = 'SETTING_DESKTOP_NOTIFICATIONS';
 
 export interface SettingAlertSoundAction {
   type: typeof SETTING_ALERT_SOUND;
@@ -30,4 +32,13 @@ export interface SettingCheckIntervalAction {
   payload: SettingsState['check_interval'];
 }
 
-export type SettingsActionTypes = SettingAlertSoundAction | SettingAlertVolumeAction | SettingCheckIntervalAction;
+export interface SettingsDesktopNotificationAction {
+  type: typeof SETTING_DESKTOP_NOTIFICATIONS;
+  payload: SettingsState['desktop_notifications'];
+}
+
+export type SettingsActionTypes =
+  | SettingAlertSoundAction
+  | SettingAlertVolumeAction
+  | SettingCheckIntervalAction
+  | SettingsDesktopNotificationAction;

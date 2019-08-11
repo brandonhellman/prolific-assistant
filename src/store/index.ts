@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore, combineReducers, Middleware } from 'redux';
 import { createLogger } from 'redux-logger';
-import { persistStore, persistReducer } from 'redux-persist';
+import { createMigrate, persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { wrapStore } from 'webext-redux';
 
@@ -10,11 +10,24 @@ import { settingsReducer } from './settings/reducers';
 
 const logger = createLogger();
 
+const persistMigrate = {
+  2: (state: any) => {
+    return {
+      ...state,
+      settings: {
+        ...state.settings,
+        desktop_notifications: true,
+      },
+    };
+  },
+};
+
 const persistConfig = {
   key: 'settings',
   storage: storage,
+  migrate: createMigrate(persistMigrate),
   whitelist: ['settings'],
-  version: 1,
+  version: 2,
 };
 
 const rootReducer = combineReducers({

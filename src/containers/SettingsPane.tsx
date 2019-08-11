@@ -4,7 +4,12 @@ import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 
 import { selectSettings } from '../store/settings/selectors';
-import { settingAlertSound, settingAlertVolume, settingCheckInterval } from '../store/settings/actions';
+import {
+  settingAlertSound,
+  settingAlertVolume,
+  settingCheckInterval,
+  settingDesktopNotifications,
+} from '../store/settings/actions';
 
 export function SettingsPane() {
   const dispatch = useDispatch();
@@ -30,6 +35,10 @@ export function SettingsPane() {
     }
   }
 
+  function onChangeDesktopNotification(event: any) {
+    dispatch(settingDesktopNotifications(event.target.checked));
+  }
+
   return (
     <Tab.Pane className="p-1" eventKey="settings">
       <Form.Group>
@@ -51,6 +60,14 @@ export function SettingsPane() {
       <Form.Group>
         <Form.Label>Alert Volume</Form.Label>
         <Form.Control type="number" onChange={onChangeAlertVolume} value={settings.alert_volume.toString()} />
+      </Form.Group>
+      <Form.Group>
+        <Form.Check
+          label="Desktop Notifications"
+          type="checkbox"
+          checked={settings.desktop_notifications}
+          onChange={onChangeDesktopNotification}
+        />
       </Form.Group>
     </Tab.Pane>
   );

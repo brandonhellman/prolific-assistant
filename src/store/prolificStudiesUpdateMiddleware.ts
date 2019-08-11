@@ -20,26 +20,28 @@ export const prolificStudiesUpdateMiddleware: Middleware = (store) => (next) => 
       if (!seen.includes(study.id)) {
         seen.push(study.id);
 
-        browser.notifications.create(study.id, {
-          type: 'list',
-          title: study.name,
-          message: '',
-          iconUrl: 'icon.png',
-          items: [
-            {
-              title: 'Hosted By',
-              message: study.researcher.name,
-            },
-            {
-              title: 'Reward',
-              message: `${centsToGBP(study.reward)} | Avg. ${centsToGBP(study.average_reward_per_hour)}`,
-            },
-            {
-              title: 'Places',
-              message: `${study.total_available_places - study.places_taken}`,
-            },
-          ],
-        });
+        if (state.settings.desktop_notifications) {
+          browser.notifications.create(study.id, {
+            type: 'list',
+            title: study.name,
+            message: '',
+            iconUrl: 'icon.png',
+            items: [
+              {
+                title: 'Hosted By',
+                message: study.researcher.name,
+              },
+              {
+                title: 'Reward',
+                message: `${centsToGBP(study.reward)} | Avg. ${centsToGBP(study.average_reward_per_hour)}`,
+              },
+              {
+                title: 'Places',
+                message: `${study.total_available_places - study.places_taken}`,
+              },
+            ],
+          });
+        }
 
         return [...acc, study];
       }
