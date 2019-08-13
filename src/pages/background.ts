@@ -124,3 +124,9 @@ browser.webRequest.onBeforeSendHeaders.addListener(
   },
   ['blocking', 'requestHeaders'],
 );
+
+browser.runtime.onMessage.addListener((message) => {
+  if (message === 'check_for_studies') {
+    main();
+  }
+});

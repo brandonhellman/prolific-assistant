@@ -1,8 +1,13 @@
+import { browser } from 'webextension-polyfill-ts';
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import { selectSessionLastChecked } from '../store/session/selectors';
 
@@ -17,7 +22,11 @@ export function Header() {
       </Nav>
       <Nav>
         <Nav.Item className="text-light">
-          Last checked: {last_checked ? moment(last_checked).format('LTS') : 'Never'}
+          <OverlayTrigger placement="left" overlay={<Tooltip id="check-tooltip">Click to check for studies</Tooltip>}>
+            <Button onClick={() => browser.runtime.sendMessage('check_for_studies')}>
+              Last checked: {last_checked ? moment(last_checked).format('LTS') : 'Never'}
+            </Button>
+          </OverlayTrigger>
         </Nav.Item>
       </Nav>
     </Navbar>
