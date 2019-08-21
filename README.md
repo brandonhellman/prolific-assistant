@@ -1,5 +1,3 @@
-This project was bootstrapped with [WebExtension Create](https://github.com/kadauchi/webextension-create).
-
 ## Available Scripts
 
 In the project directory, you can run:
