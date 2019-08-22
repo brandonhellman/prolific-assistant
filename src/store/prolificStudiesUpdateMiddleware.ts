@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-scripts/polyfill';
 import { Middleware } from 'redux';
 
 import { centsToGBP } from '../functions/centsToGBP';

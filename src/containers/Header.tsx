@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-scripts/polyfill';
 
 import React from 'react';
 import { useSelector } from 'react-redux';

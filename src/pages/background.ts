@@ -1,4 +1,4 @@
-import { browser, Tabs, WebRequest } from 'webextension-polyfill-ts';
+import { browser, Tabs, WebRequest } from 'webextension-scripts/polyfill';
 
 import { fetchProlificStudies } from '../functions/fetchProlificStudies';
 import { openProlificStudy } from '../functions/openProlificStudy';
