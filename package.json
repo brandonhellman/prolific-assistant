@@ -24,8 +24,7 @@
     "redux-persist": "^5.10.0",
     "typescript": "^3.5.3",
     "webext-redux": "^2.1.2",
-    "webextension-polyfill-ts": "^0.9.1",
-    "webextension-scripts": "^0.4.2"
+    "webextension-scripts": "^0.5.0"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
