@@ -28,10 +28,11 @@ export function StudiesPane() {
                   <Col xs="auto">
                     <img
                       src={
-                        study.researcher.institution.logo ||
+                        study.researcher.institution?.logo ||
                         'https://app.prolific.co/img/default_study_icon.2850c668.svg'
                       }
                       style={{ width: 64, height: 64 }}
+                      alt="logo"
                     />
                   </Col>
                   <Col xs>
