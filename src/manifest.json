@@ -20,5 +20,13 @@
     "persistent": true
   },
 
+  "content_scripts": [
+    {
+      "matches": ["https://app.prolific.co/*"],
+      "run_at": "document_end",
+      "js": ["pages/contentScript.js"]
+    }
+  ],
+
   "permissions": ["notifications", "tabs", "webRequest", "webNavigation", "webRequestBlocking", "https://*.prolific.co/*"]
 }
