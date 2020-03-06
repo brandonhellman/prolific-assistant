@@ -20,5 +20,5 @@
     "persistent": true
   },
 
-  "permissions": ["notifications", "tabs", "webRequest", "webRequestBlocking", "https://*.prolific.co/*"]
+  "permissions": ["notifications", "tabs", "webRequest", "webNavigation", "webRequestBlocking", "https://*.prolific.co/*"]
 }
