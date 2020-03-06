@@ -50,7 +50,6 @@ async function main() {
       window.console.error('fetchProlificStudies error', error);
     }
   } else {
-    // openAuthTab();
     store.dispatch(prolificErrorUpdate(401));
   }
 
