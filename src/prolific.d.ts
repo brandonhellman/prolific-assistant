@@ -16,7 +16,7 @@ interface ProlificStudy {
   researcher: {
     id: string;
     name: string;
-    institution: {
+    institution?: {
       name: string | null;
       logo: string | null;
       link: string;
